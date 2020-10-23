@@ -1,10 +1,7 @@
 package no.oslomet.cs.algdat.Eksamen;
 
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.StringJoiner;
+import java.util.*;
 
 public class EksamenSBinTre<T> {
     private static final class Node<T>   // en indre nodeklasse
@@ -84,7 +81,18 @@ public class EksamenSBinTre<T> {
     }
 
     public boolean leggInn(T verdi) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        //Test hvis verdi er riktig input
+        Objects.requireNonNull(verdi, "Verdi kan ikke være null");
+
+        Node currentNode = rot;
+        Node temp = null;
+        int cmp = 0;
+
+        //hvis rot node eksisterer
+        while(currentNode != null){
+            temp = currentNode;
+        }
+        return true;
     }
 
     public boolean fjern(T verdi) {
