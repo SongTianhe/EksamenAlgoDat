@@ -150,9 +150,12 @@ public class EksamenSBinTre<T> {
     }
 
     private static <T> Node<T> førstePostorden(Node<T> p) {
-        Objects.requireNonNull(p,"Verdi kan ikke være null");
+        Objects.requireNonNull(p,"det finnes ikke rot node, treet er tom");
 
+        //bruk en temp til å gå gjennom tre
         Node<T> temp = p;
+
+        //løp gjennom tre ved den uendelig løkke, løkken skal sluttes nå det finnes ingen barn, dvs en bladnode
         while(true){
             if(temp.venstre != null) {
                 temp = temp.venstre;
@@ -166,7 +169,24 @@ public class EksamenSBinTre<T> {
     }
 
     private static <T> Node<T> nestePostorden(Node<T> p) {
-        return null;
+        Node<T> temp = p;
+
+        while(true){
+            //siste i postorden er rot, rot har ikke foreldre
+            if(temp.forelder.forelder == null && temp.forelder.høyre == temp){
+                return null;
+            }
+            if(temp == temp.forelder.høyre){
+                temp = temp.forelder;
+                break;
+            }else if(temp.forelder.høyre != null){
+                temp = temp.forelder.høyre;
+                break;
+            }else{
+                temp = temp.forelder;
+            }
+        }
+        return temp;
     }
 
     public void postorden(Oppgave<? super T> oppgave) {
