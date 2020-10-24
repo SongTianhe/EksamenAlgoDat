@@ -84,14 +84,33 @@ public class EksamenSBinTre<T> {
         //Test hvis verdi er riktig input
         Objects.requireNonNull(verdi, "Verdi kan ikke være null");
 
-        Node currentNode = rot;
-        Node temp = null;
+        Node<T> currentNode = rot;
+        Node<T> temp = null;
         int cmp = 0;
 
-        //hvis rot node eksisterer
+        //gå gjennom tree, sluttes når det finner passet posisjon for nye node
         while(currentNode != null){
             temp = currentNode;
+            //cmp er -1 hvis verdi er mindre enn currentNode sin verdi
+            //cmp er 1 hvis verdi er større enn currentNode sin verdi
+            cmp = comp.compare(verdi,currentNode.verdi);
+            currentNode = cmp<0 ? currentNode.venstre : currentNode.høyre;
         }
+
+        //Nå er currentNode fant riktig plass, og temp er foreldre til currentNode
+        //Opprett en nye Node
+        currentNode = new Node<>(verdi,temp);
+
+        if(temp == null){//hvis tree er tom, legge nye node som rot
+            rot = currentNode;
+        }else if (cmp<0){
+            temp.venstre=currentNode;
+        }else {
+            temp.høyre=currentNode;
+        }
+        antall++;
+        endringer++;
+
         return true;
     }
 
@@ -141,7 +160,8 @@ public class EksamenSBinTre<T> {
 
     public static void main(String[] args) {
         EksamenSBinTre<String> tre = new EksamenSBinTre<>(Comparator.naturalOrder());
-        System.out.println(tre.antall());
+
+        System.out.println();
     }
 
 
