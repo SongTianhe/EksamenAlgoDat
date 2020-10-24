@@ -103,11 +103,13 @@ public class EksamenSBinTre<T> {
 
         if(temp == null){//hvis tree er tom, legge nye node som rot
             rot = currentNode;
-        }else if (cmp<0){
+        }else if (cmp<0){//cmp er saved i forrige while-løkk, hvis cmp=-1, så betyr currentNode er mindre enn temp, og er nå venstreBarn til temp.
             temp.venstre=currentNode;
-        }else {
+        }else {//hvis cmp=1, så betyr currentNode er større enn temp, og er nå høyreBarn til temp.
             temp.høyre=currentNode;
         }
+
+        //antall og endring øker
         antall++;
         endringer++;
 
