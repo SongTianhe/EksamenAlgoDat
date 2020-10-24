@@ -125,7 +125,24 @@ public class EksamenSBinTre<T> {
     }
 
     public int antall(T verdi) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        int antallVerdi = 0;
+        int cmp = 0;
+        Node<T> temp = rot;
+
+        while(temp != null) {
+            cmp = comp.compare(verdi,temp.verdi);
+
+            //hvis cmp=0, betyr verdi og temp sin verdi er sammen
+            if(cmp == 0) {
+                antallVerdi ++;
+                //gå videre med tre, ved flytt temp til høyre barn, fordi det skal legges høyre hvis det er sammen tall
+                temp = temp.høyre;
+            }else{//fortsett hvis det er ikke sammen verdi
+                temp = cmp<0 ? temp.venstre : temp.høyre;
+            }
+        }
+
+        return antallVerdi;
     }
 
     public void nullstill() {
@@ -161,9 +178,17 @@ public class EksamenSBinTre<T> {
     }
 
     public static void main(String[] args) {
-        EksamenSBinTre<String> tre = new EksamenSBinTre<>(Comparator.naturalOrder());
+        Integer[] a = {4,7,2,9,4,10,8,7,4,6};
+        EksamenSBinTre<Integer> tre = new EksamenSBinTre<>(Comparator.naturalOrder());
+        for(int verdi : a){
+            tre.leggInn(verdi);
+        }
 
-        System.out.println();
+        System.out.println(tre.antall());
+        System.out.println(tre.antall(5));
+        System.out.println(tre.antall(4));
+        System.out.println(tre.antall(7));
+        System.out.println(tre.antall(10));
     }
 
 
