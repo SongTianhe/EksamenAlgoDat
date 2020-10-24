@@ -195,10 +195,10 @@ public class EksamenSBinTre<T> {
         if(temp.forelder != null) {
             if(temp == temp.forelder.venstre && temp.forelder.høyre != null){
                 temp = temp.forelder.høyre;
+                temp = førstePostorden(temp);
             }else{
                 temp = temp.forelder;
             }
-            temp = førstePostorden(temp);
             return temp;
         }
 
