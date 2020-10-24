@@ -166,7 +166,7 @@ public class EksamenSBinTre<T> {
     }
 
     private static <T> Node<T> nestePostorden(Node<T> p) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        return null;
     }
 
     public void postorden(Oppgave<? super T> oppgave) {
@@ -190,17 +190,20 @@ public class EksamenSBinTre<T> {
     }
 
     public static void main(String[] args) {
-        Integer[] a = {4,7,2,9,4,10,8,7,4,6};
+        Integer[] a = {7,6,4,6,5,9,8,7,10,9,12};
         EksamenSBinTre<Integer> tre = new EksamenSBinTre<>(Comparator.naturalOrder());
         for(int verdi : a){
             tre.leggInn(verdi);
         }
 
+        String s = tre.toStringPostOrder();
+        System.out.println(s);
+        /*
         System.out.println(tre.antall());
         System.out.println(tre.antall(5));
         System.out.println(tre.antall(4));
         System.out.println(tre.antall(7));
-        System.out.println(tre.antall(10));
+        System.out.println(tre.antall(10));*/
     }
 
 
