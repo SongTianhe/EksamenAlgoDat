@@ -169,12 +169,13 @@ public class EksamenSBinTre<T> {
     }
 
     private static <T> Node<T> nestePostorden(Node<T> p) {
+        /*
         if(p.forelder == null){
             return null;
-        }
-
+        }*/
         Node<T> temp = p;
 
+        /*
         while(true){
             //siste i postorden er rot, rot har ikke foreldre
             if(temp.forelder == null && temp.forelder.høyre == temp){
@@ -189,8 +190,19 @@ public class EksamenSBinTre<T> {
             }else{
                 temp = temp.forelder;
             }
+        }*/
+
+        if(temp.forelder != null) {
+            if(temp == temp.forelder.venstre && temp.forelder.høyre != null){
+                temp = temp.forelder.høyre;
+            }else{
+                temp = temp.forelder;
+            }
+            temp = førstePostorden(temp);
+            return temp;
         }
-        return temp;
+
+        return null;
     }
 
     public void postorden(Oppgave<? super T> oppgave) {
