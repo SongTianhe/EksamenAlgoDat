@@ -150,7 +150,19 @@ public class EksamenSBinTre<T> {
     }
 
     private static <T> Node<T> førstePostorden(Node<T> p) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        Objects.requireNonNull(p,"Verdi kan ikke være null");
+
+        Node<T> temp = p;
+        while(true){
+            if(temp.venstre != null) {
+                temp = temp.venstre;
+            }else if(temp.høyre != null) {
+                temp = temp.høyre;
+            }else{
+                break;
+            }
+        }
+        return temp;
     }
 
     private static <T> Node<T> nestePostorden(Node<T> p) {
