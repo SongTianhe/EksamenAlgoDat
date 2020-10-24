@@ -169,34 +169,20 @@ public class EksamenSBinTre<T> {
     }
 
     private static <T> Node<T> nestePostorden(Node<T> p) {
-        /*
-        if(p.forelder == null){
-            return null;
-        }*/
         Node<T> temp = p;
 
-        /*
-        while(true){
-            //siste i postorden er rot, rot har ikke foreldre
-            if(temp.forelder == null && temp.forelder.høyre == temp){
-                return null;
-            }
-            if(temp == temp.forelder.høyre){
-                temp = temp.forelder;
-                break;
-            }else if(temp.forelder.høyre != null){
-                temp = temp.forelder.høyre;
-                break;
-            }else{
-                temp = temp.forelder;
-            }
-        }*/
-
+        //sjekk hvis p finner forelder (hvis finner ikke, så det er rot, dvs siste i postorden)
         if(temp.forelder != null) {
+            //Postorden skal print venstre subtree først, og etterpå print høyre subtree, i slutten er rot
+            /*Den kan bruk førstePostorden metoden som vi har laget før,
+              men den må bruk p sin forelderes høyre barn som parameter.
+              Denne if sjekker hvis p er venstre barn til forelder, og forelder har høyre barn,
+              så skal p vil forelderes høyre barn og kjør førstePostorden og finner neste node
+            */
             if(temp == temp.forelder.venstre && temp.forelder.høyre != null){
                 temp = temp.forelder.høyre;
                 temp = førstePostorden(temp);
-            }else{
+            }else{//hvis ikke, så det betyr venstre barn er ut, nå skal høyre barn ut direkt
                 temp = temp.forelder;
             }
             return temp;
