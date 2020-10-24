@@ -169,11 +169,15 @@ public class EksamenSBinTre<T> {
     }
 
     private static <T> Node<T> nestePostorden(Node<T> p) {
+        if(p.forelder == null){
+            return null;
+        }
+
         Node<T> temp = p;
 
         while(true){
             //siste i postorden er rot, rot har ikke foreldre
-            if(temp.forelder.forelder == null && temp.forelder.høyre == temp){
+            if(temp.forelder == null && temp.forelder.høyre == temp){
                 return null;
             }
             if(temp == temp.forelder.høyre){
