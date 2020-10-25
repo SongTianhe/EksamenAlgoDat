@@ -192,7 +192,14 @@ public class EksamenSBinTre<T> {
     }
 
     public void postorden(Oppgave<? super T> oppgave) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        //Finn den første noden i postorden ved bruk av førstePostorden() metode
+        Node<T> node = førstePostorden(rot);
+        oppgave.utførOppgave(node.verdi);
+
+        while(node != null){
+            node = nestePostorden(node);
+            oppgave.utførOppgave(node.verdi);
+        }
     }
 
     public void postordenRecursive(Oppgave<? super T> oppgave) {
@@ -200,7 +207,7 @@ public class EksamenSBinTre<T> {
     }
 
     private void postordenRecursive(Node<T> p, Oppgave<? super T> oppgave) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+
     }
 
     public ArrayList<T> serialize() {
