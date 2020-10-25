@@ -196,7 +196,9 @@ public class EksamenSBinTre<T> {
         Node<T> node = førstePostorden(rot);
 
         while(node != null){
+            //skrive ut noden
             oppgave.utførOppgave(node.verdi);
+            //flytt node til nest node i postorden
             node = nestePostorden(node);
         }
     }
@@ -206,7 +208,13 @@ public class EksamenSBinTre<T> {
     }
 
     private void postordenRecursive(Node<T> p, Oppgave<? super T> oppgave) {
-
+        if(p.venstre != null){
+            postordenRecursive(p.venstre,oppgave);
+        }
+        if(p.høyre != null){
+            postordenRecursive(p.høyre,oppgave);
+        }
+        oppgave.utførOppgave(p.verdi);
     }
 
     public ArrayList<T> serialize() {
