@@ -208,13 +208,12 @@ public class EksamenSBinTre<T> {
     }
 
     private void postordenRecursive(Node<T> p, Oppgave<? super T> oppgave) {
-        if(p.venstre != null){
+        if(p != null){
             postordenRecursive(p.venstre,oppgave);
-        }
-        if(p.høyre != null){
             postordenRecursive(p.høyre,oppgave);
+
+            oppgave.utførOppgave(p.verdi);
         }
-        oppgave.utførOppgave(p.verdi);
     }
 
     public ArrayList<T> serialize() {
