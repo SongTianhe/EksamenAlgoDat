@@ -208,16 +208,49 @@ public class EksamenSBinTre<T> {
     }
 
     private void postordenRecursive(Node<T> p, Oppgave<? super T> oppgave) {
+        //hvis noden er ikke null
         if(p != null){
-            postordenRecursive(p.venstre,oppgave);
-            postordenRecursive(p.høyre,oppgave);
+            postordenRecursive(p.venstre,oppgave);//går venstre til det finnes ikke noe venstre barn
+            postordenRecursive(p.høyre,oppgave);//går høyre til det finnes ikke noe høyre
+            // barn
 
+            //hvis det er ingen venstre og høyre barn,skrive ut noden
             oppgave.utførOppgave(p.verdi);
         }
     }
 
     public ArrayList<T> serialize() {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        ArrayList<T> nodeList = new ArrayList();
+        List<Node> hjelpList=new ArrayList();
+
+        //hvis tree er tom
+        if(tom()){
+            return nodeList;
+        }
+
+        int inn = 0;
+        Node<T> node = rot;
+        hjelpList.add(node);
+        //nodeList.add(node.verdi);
+        //kjør en while-løkk hvis hjelp list er ikke tom
+        /*
+        while(!hjelpList.isEmpty()){
+
+        }*/
+        for(int i=0; antall>inn; i++){
+            node = hjelpList.get(i);
+
+            if(node.venstre != null){
+                hjelpList.add(node.venstre);
+                inn ++;
+            }
+            if(node.høyre != null){
+                hjelpList.add(node.høyre);
+                inn ++;
+            }
+            nodeList.add(node.verdi);
+        }
+        return nodeList;
     }
 
     static <K> EksamenSBinTre<K> deserialize(ArrayList<K> data, Comparator<? super K> c) {
@@ -230,15 +263,7 @@ public class EksamenSBinTre<T> {
         for(int verdi : a){
             tre.leggInn(verdi);
         }
-        /*
-        Oppgave s = tre.postorden(tre);
-        System.out.println(s);*/
-        /*
-        System.out.println(tre.antall());
-        System.out.println(tre.antall(5));
-        System.out.println(tre.antall(4));
-        System.out.println(tre.antall(7));
-        System.out.println(tre.antall(10));*/
+
     }
 
 
