@@ -194,11 +194,10 @@ public class EksamenSBinTre<T> {
     public void postorden(Oppgave<? super T> oppgave) {
         //Finn den første noden i postorden ved bruk av førstePostorden() metode
         Node<T> node = førstePostorden(rot);
-        oppgave.utførOppgave(node.verdi);
 
-        while(nestePostorden(node) != null){
-            node = nestePostorden(node);
+        while(node != null){
             oppgave.utførOppgave(node.verdi);
+            node = nestePostorden(node);
         }
     }
 
