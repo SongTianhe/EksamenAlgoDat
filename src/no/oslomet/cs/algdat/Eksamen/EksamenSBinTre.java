@@ -228,25 +228,17 @@ public class EksamenSBinTre<T> {
             return nodeList;
         }
 
-        int inn = 0;
         Node<T> node = rot;
         hjelpList.add(node);
-        //nodeList.add(node.verdi);
-        //kjør en while-løkk hvis hjelp list er ikke tom
-        /*
-        while(!hjelpList.isEmpty()){
 
-        }*/
-        for(int i=0; antall>inn; i++){
+        for(int i=0; antall>i; i++){
             node = hjelpList.get(i);
 
             if(node.venstre != null){
                 hjelpList.add(node.venstre);
-                inn ++;
             }
             if(node.høyre != null){
                 hjelpList.add(node.høyre);
-                inn ++;
             }
             nodeList.add(node.verdi);
         }
