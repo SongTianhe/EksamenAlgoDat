@@ -196,7 +196,7 @@ public class EksamenSBinTre<T> {
         Node<T> node = førstePostorden(rot);
         oppgave.utførOppgave(node.verdi);
 
-        while(node != null){
+        while(nestePostorden(node) != null){
             node = nestePostorden(node);
             oppgave.utførOppgave(node.verdi);
         }
@@ -219,14 +219,14 @@ public class EksamenSBinTre<T> {
     }
 
     public static void main(String[] args) {
-        Integer[] a = {7,6,4,6,5,9,8,7,10,9,12};
+        int[] a = {10, 6, 14, 1, 8, 12, 3, 7, 9, 11, 13, 2, 5, 4};
         EksamenSBinTre<Integer> tre = new EksamenSBinTre<>(Comparator.naturalOrder());
         for(int verdi : a){
             tre.leggInn(verdi);
         }
-
-        String s = tre.toStringPostOrder();
-        System.out.println(s);
+        /*
+        Oppgave s = tre.postorden(tre);
+        System.out.println(s);*/
         /*
         System.out.println(tre.antall());
         System.out.println(tre.antall(5));
