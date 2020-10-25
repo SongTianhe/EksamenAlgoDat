@@ -228,25 +228,43 @@ public class EksamenSBinTre<T> {
             return nodeList;
         }
 
+        //legge rot til index 0 av hjelpList
         Node<T> node = rot;
         hjelpList.add(node);
 
+        //i er index av hjelpList, loop stopes når tree er ferdig
+        //det traverserer treet i nivå orden
         for(int i=0; antall>i; i++){
+            //hent node informasjon fra hjelpList
             node = hjelpList.get(i);
 
             if(node.venstre != null){
+                //lagre node i hjelpList, slik at kan finner det etterpå
                 hjelpList.add(node.venstre);
             }
             if(node.høyre != null){
                 hjelpList.add(node.høyre);
             }
+            //legger verdi til nodeList
             nodeList.add(node.verdi);
         }
         return nodeList;
     }
 
     static <K> EksamenSBinTre<K> deserialize(ArrayList<K> data, Comparator<? super K> c) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        //sjekk hvis list som kom inn er ikke tom
+        if(data.isEmpty()){
+            return null;
+        }
+
+        //instanser tree
+        EksamenSBinTre<K> deserializeTre = new EksamenSBinTre<>(c);
+
+        for(K verdi : data){
+            deserializeTre.leggInn(verdi);
+        }
+
+        return deserializeTre;
     }
 
     public static void main(String[] args) {
