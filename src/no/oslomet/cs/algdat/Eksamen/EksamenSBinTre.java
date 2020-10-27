@@ -117,11 +117,40 @@ public class EksamenSBinTre<T> {
     }
 
     public boolean fjern(T verdi) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        //Test hvis verdi er riktig input
+        Objects.requireNonNull(verdi, "Verdi kan ikke være null");
+
+        Node<T> currentNode = rot;
+        Node<T> tempForelder = null;
+        int cmp;
+
+        while(currentNode != null){
+            tempForelder = currentNode;
+            cmp = comp.compare(verdi,currentNode.verdi);
+            if(cmp == 0){
+                break;
+            }else {
+                currentNode = cmp<0 ? currentNode.venstre : currentNode.høyre;
+            }
+        }
+
+        if(currentNode == null){//finner ikke verdi innen tre
+            return false;
+        }
+
+        if(currentNode.venstre != null){
+            currentNode.venstre.forelder = tempForelder;
+        }else if(currentNode.høyre != null){
+            currentNode.høyre.forelder = tempForelder;
+        }else{
+            currentNode.forelder = null;
+        }
+
+        return true;
     }
 
     public int fjernAlle(T verdi) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        return 0;
     }
 
     public int antall(T verdi) {
@@ -146,7 +175,7 @@ public class EksamenSBinTre<T> {
     }
 
     public void nullstill() {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+
     }
 
     private static <T> Node<T> førstePostorden(Node<T> p) {
