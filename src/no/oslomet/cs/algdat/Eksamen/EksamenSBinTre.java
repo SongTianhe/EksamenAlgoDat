@@ -126,7 +126,7 @@ public class EksamenSBinTre<T> {
 
     public int antall(T verdi) {
         int antallVerdi = 0;
-        int cmp = 0;
+        int cmp;
         Node<T> temp = rot;
 
         while(temp != null) {
