@@ -117,37 +117,56 @@ public class EksamenSBinTre<T> {
     }
 
     public boolean fjern(T verdi) {
-        //Test hvis verdi er riktig input
-        Objects.requireNonNull(verdi, "Verdi kan ikke være null");
+        if(verdi==null) return false;
 
-        Node<T> currentNode = rot;
-        Node<T> tempForelder = null;
-        int cmp;
+        Node<T> p=rot, q=null; //q skal være forelder til p;
 
-        while(currentNode != null){
-            tempForelder = currentNode;
-            cmp = comp.compare(verdi,currentNode.verdi);
-            if(cmp == 0){
+        while (p!=null){
+            int cmp=comp.compare(verdi,p.verdi);
+            if (cmp<0) {
+                q=p;
+                p=q.venstre;
+            }else if (cmp>0){
+                q=p;
+                p=q.høyre;
+            } else {
                 break;
-            }else {
-                currentNode = cmp<0 ? currentNode.venstre : currentNode.høyre;
             }
         }
+        if(p==null) return false; //Parameterverdien finnes ikke i treet.
 
-        if(currentNode == null){//finner ikke verdi innen tre
-            return false;
+        if(p.venstre==null && p.høyre==null && q!=null) //Tilfelle 1)
+        {
+            if(q.høyre==p){
+                q.høyre=null;
+            }else {
+                q.venstre=null;
+            }
         }
+        else if (p.venstre==null || p.høyre==null) //Tilfelle 2)
+        {
+            Node<T> barn=p.venstre!=null?p.venstre:p.høyre; // Finne child til p.
+            if(p==rot) rot=barn;
+            else if (p==q.venstre) q.venstre=barn;
+            else {
+                q.høyre=barn;
+                barn.forelder=q;
+                p=null;
+            }
+        }else //Tilfelle 3)
+        {
+            Node<T> s=p, r=p.høyre;
+            while (r.venstre!=null){
+                s=r; //s er forelder til r.
+                r=r.venstre;
+            }
+            p.verdi=r.verdi; //Kopierer verdien i r til p;
 
-        if(currentNode.venstre != null){
-            currentNode.venstre.forelder = tempForelder;
-        }else if(currentNode.høyre != null){
-            currentNode.høyre.forelder = tempForelder;
-        }else{
-            currentNode.forelder = null;
+            if(s!=p) s.venstre=r.høyre;
+            else s.høyre=r.høyre;
         }
-
-        antall --;
-        endringer --;
+        antall--;
+        endringer++;
         return true;
     }
 
@@ -159,15 +178,11 @@ public class EksamenSBinTre<T> {
             return 0;
         }
 
-        while(true){
+        while(inneholder(verdi)){
             fjern(verdi);
-            if(fjern(verdi) == true){
-                fjern ++;
-                antall --;
-                endringer ++;
-            }else{
-                break;
-            }
+            fjern ++;
+            antall --;
+            endringer ++;
         }
 
         return fjern;
