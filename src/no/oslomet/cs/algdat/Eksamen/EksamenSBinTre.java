@@ -146,11 +146,31 @@ public class EksamenSBinTre<T> {
             currentNode.forelder = null;
         }
 
+        antall --;
+        endringer --;
         return true;
     }
 
     public int fjernAlle(T verdi) {
-        return 0;
+        Objects.requireNonNull(verdi, "Verdi kan ikke være null");
+
+        int fjern = 0;
+        if(tom()){
+            return 0;
+        }
+
+        while(true){
+            fjern(verdi);
+            if(fjern(verdi) == true){
+                fjern ++;
+                antall --;
+                endringer ++;
+            }else{
+                break;
+            }
+        }
+
+        return fjern;
     }
 
     public int antall(T verdi) {
