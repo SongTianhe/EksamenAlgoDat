@@ -216,7 +216,21 @@ public class EksamenSBinTre<T> {
     }
 
     public void nullstill() {
+        Node<T> temp;
 
+        while(!tom()){
+            temp = rot;
+            while(temp.venstre != null){
+                temp = temp.venstre;
+            }
+
+            while(temp.høyre != null){
+                temp = temp.høyre;
+            }
+
+            temp = null;
+            antall --;
+        }
     }
 
     private static <T> Node<T> førstePostorden(Node<T> p) {
@@ -339,13 +353,18 @@ public class EksamenSBinTre<T> {
 
     public static void main(String[] args) {
         int[] a = {4,7,2,9,4,10,8,7,4,6,1};
+        int[] b = {1, 4, 1, 3, 1, 2, 1, 1};
         EksamenSBinTre<Integer> tre = new EksamenSBinTre<>(Comparator.naturalOrder());
-        for(int verdi : a){
+        for(int verdi : b){
             tre.leggInn(verdi);
         }
 
+        //tre.nullstill();
+        System.out.println("antall verdi : "+tre.fjernAlle(1));
+        System.out.println("antall : "+tre.antall());
         System.out.println(tre.toStringPostOrder());
 
+        /*
         System.out.println(tre.fjernAlle(4)); // 3
         System.out.println(tre.toStringPostOrder());
 
@@ -354,7 +373,7 @@ public class EksamenSBinTre<T> {
 
         tre.fjern(8);
         System.out.println(tre.antall()); // 5
-        System.out.println(tre.toStringPostOrder());
+        System.out.println(tre.toStringPostOrder());*/
 
     }
 
