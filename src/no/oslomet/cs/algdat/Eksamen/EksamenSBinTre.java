@@ -188,7 +188,7 @@ public class EksamenSBinTre<T> {
 
         int fjern = 0;
 
-        while(inneholder(verdi)){
+        while(inneholder(verdi)){ //fjerner verdi hvis det finnes i treet
             fjern(verdi);
             fjern ++;
         }
@@ -218,23 +218,37 @@ public class EksamenSBinTre<T> {
     }
 
     public void nullstill() {
-        Node<T> temp;
+        Node<T> current; //node som skal nullstill
+        Node<T> forlder; //forldere til current
+
 
         while(!tom()){
-            temp = rot;
-            while(temp.venstre != null){
-                temp = temp.venstre;
+            current = rot;
+            forlder = null;
+
+            while(current.venstre != null || current.høyre != null){ //finn bladnode
+                if(current.venstre != null){
+                    forlder = current;
+                    current = current.venstre;
+                }else if(current.høyre != null){
+                    forlder = current;
+                    current = current.høyre;
+                }
             }
 
-            while(temp.høyre != null){
-                temp = temp.høyre;
-            }
-
-            if(temp != rot) {
-                temp.forelder = null;
-            }else{
+            if(current != rot){ //hvis node er ikke rot
+                if(current == forlder.venstre) {//hvis det er venstre barn til forldere
+                    forlder.venstre = null;
+                    current.forelder = null;
+                }else if(current == forlder.høyre){ ////hvis det er høyre barn til forldere
+                    forlder.høyre = null;
+                    current.forelder = null;
+                }
+            }else{ //hvis det er rot
                 rot = null;
             }
+
+            current.verdi = null;
             antall --;
         }
     }
@@ -310,7 +324,7 @@ public class EksamenSBinTre<T> {
     }
 
     public ArrayList<T> serialize() {
-        ArrayList<T> nodeList = new ArrayList();
+        ArrayList nodeList = new ArrayList();
         List<Node> hjelpList=new ArrayList();
 
         //hvis tree er tom
@@ -356,33 +370,4 @@ public class EksamenSBinTre<T> {
 
         return deserializeTre;
     }
-
-    public static void main(String[] args) {
-        int[] a = {4,7,2,9,4,10,8,7,4,6,1};
-        int[] b = {1, 4, 1, 3, 1, 2, 1, 1};
-        EksamenSBinTre<Integer> tre = new EksamenSBinTre<>(Comparator.naturalOrder());
-
-        tre.leggInn(6);
-        tre.nullstill();
-        for(int verdi : b){
-            tre.leggInn(verdi);
-        }
-        //System.out.println("antall verdi : "+tre.fjernAlle(1));
-        System.out.println("antall : "+tre.antall());
-        System.out.println(tre.toStringPostOrder());
-
-        /*
-        System.out.println(tre.fjernAlle(4)); // 3
-        System.out.println(tre.toStringPostOrder());
-
-        System.out.println(tre.fjernAlle(7));
-        System.out.println(tre.toStringPostOrder());
-
-        tre.fjern(8);
-        System.out.println(tre.antall()); // 5
-        System.out.println(tre.toStringPostOrder());*/
-
-    }
-
-
 } // ObligSBinTre
