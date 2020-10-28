@@ -147,7 +147,9 @@ public class EksamenSBinTre<T> {
             Node<T> barn = current.venstre != null ? current.venstre : current.høyre; //Finne ut det er venstre eller høyre barn
             if(current == rot){
                 rot = barn;
-                //barn.forelder = null;
+                if(barn != null){
+                    barn.forelder = null;
+                }
             }else if(current == forelder.venstre){
                 forelder.venstre = barn;
                 barn.forelder = forelder;
@@ -228,7 +230,11 @@ public class EksamenSBinTre<T> {
                 temp = temp.høyre;
             }
 
-            temp = null;
+            if(temp != rot) {
+                temp.forelder = null;
+            }else{
+                rot = null;
+            }
             antall --;
         }
     }
@@ -355,12 +361,13 @@ public class EksamenSBinTre<T> {
         int[] a = {4,7,2,9,4,10,8,7,4,6,1};
         int[] b = {1, 4, 1, 3, 1, 2, 1, 1};
         EksamenSBinTre<Integer> tre = new EksamenSBinTre<>(Comparator.naturalOrder());
+
+        tre.leggInn(6);
+        tre.nullstill();
         for(int verdi : b){
             tre.leggInn(verdi);
         }
-
-        //tre.nullstill();
-        System.out.println("antall verdi : "+tre.fjernAlle(1));
+        //System.out.println("antall verdi : "+tre.fjernAlle(1));
         System.out.println("antall : "+tre.antall());
         System.out.println(tre.toStringPostOrder());
 
