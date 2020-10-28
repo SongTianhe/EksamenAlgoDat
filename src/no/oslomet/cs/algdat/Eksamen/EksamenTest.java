@@ -315,7 +315,7 @@ public class EksamenTest {
             antallFeil++;
             System.out.println("Oppgave 6l: Feil i fjern(T)!");
         }
-/*
+
         tre.nullstill();
 
         if (tre.antall() != 0) {
@@ -392,7 +392,7 @@ public class EksamenTest {
             System.out.println("nullstille hode og antall? Alle nodeverdier og");
             System.out.println("pekere i treet skal nulles!");
         }
-        assertEquals(antallFeil, 0);*/
+        assertEquals(antallFeil, 0);
     }  // slutt på Oppgave 5
 
 

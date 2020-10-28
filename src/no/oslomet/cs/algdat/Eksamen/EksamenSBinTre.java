@@ -117,66 +117,71 @@ public class EksamenSBinTre<T> {
     }
 
     public boolean fjern(T verdi) {
-        if(verdi==null) return false;
+        //Test hvis verdi er riktig input
+        Objects.requireNonNull(verdi, "Verdi kan ikke være null");
 
-        Node<T> p=rot, q=null; //q skal være forelder til p;
+        Node<T> current = rot;
+        Node<T> forelder = null; //forelder til current node
+        int cmp;
 
-        while (p!=null){
-            int cmp=comp.compare(verdi,p.verdi);
-            if (cmp<0) {
-                q=p;
-                p=q.venstre;
-            }else if (cmp>0){
-                q=p;
-                p=q.høyre;
-            } else {
+        while (current != null){
+            cmp=comp.compare(verdi,current.verdi);
+            if(cmp == 0){
                 break;
+            }else{
+                forelder=current;
+                current = cmp<0 ? current.venstre : current.høyre;
             }
         }
-        if(p==null) return false; //Parameterverdien finnes ikke i treet.
+        if(current == null) { //verdien finnes ikke i treet
+            return false;
+        }
 
-        if(p.venstre==null && p.høyre==null && q!=null) //Tilfelle 1)
-        {
-            if(q.høyre==p){
-                q.høyre=null;
+        if(current.venstre == null && current.høyre == null && forelder != null){//hvis det er en bladnode
+            if(forelder.høyre == current){
+                forelder.høyre=null;
             }else {
-                q.venstre=null;
+                forelder.venstre=null;
             }
-        }
-        else if (p.venstre==null || p.høyre==null) //Tilfelle 2)
-        {
-            Node<T> barn=p.venstre!=null?p.venstre:p.høyre; // Finne child til p.
-            if(p==rot) rot=barn;
-            else if (p==q.venstre) q.venstre=barn;
+        }else if(current.venstre == null || current.høyre == null){//hvis node har bare en barn
+            Node<T> barn = current.venstre != null ? current.venstre : current.høyre; //Finne ut det er venstre eller høyre barn
+            if(current == rot){
+                rot = barn;
+            }else if(current == forelder.venstre){
+                forelder.venstre = barn;
+            }
             else {
-                q.høyre=barn;
-                barn.forelder=q;
-                p=null;
+                forelder.høyre = barn;
             }
-        }else //Tilfelle 3)
-        {
-            Node<T> s=p, r=p.høyre;
+        }else{ //node har både venstre og høyre barn
+            Node<T> s = current;
+            Node<T> r = current.høyre;
             while (r.venstre!=null){
                 s=r; //s er forelder til r.
                 r=r.venstre;
             }
-            p.verdi=r.verdi; //Kopierer verdien i r til p;
+            current.verdi=r.verdi; //kopi r sin verdi til current
 
-            if(s!=p) s.venstre=r.høyre;
-            else s.høyre=r.høyre;
+            if(s!=current){
+                s.venstre=r.høyre;
+            }else{
+                s.høyre=r.høyre;
+            }
         }
         antall--;
         endringer++;
+
         return true;
     }
 
     public int fjernAlle(T verdi) {
         Objects.requireNonNull(verdi, "Verdi kan ikke være null");
 
-        int fjern = 0;
         if(tom()){
             return 0;
         }
+
+        int fjern = 0;
 
         while(inneholder(verdi)){
             fjern(verdi);
@@ -332,11 +337,20 @@ public class EksamenSBinTre<T> {
     }
 
     public static void main(String[] args) {
-        int[] a = {10, 6, 14, 1, 8, 12, 3, 7, 9, 11, 13, 2, 5, 4};
+        int[] a = {4,7,2,9,4,10,8,7,4,6,1};
         EksamenSBinTre<Integer> tre = new EksamenSBinTre<>(Comparator.naturalOrder());
         for(int verdi : a){
             tre.leggInn(verdi);
         }
+
+        System.out.println(tre.toStringPostOrder());
+        System.out.println(tre.fjernAlle(4)); // 3
+        System.out.println(tre.toStringPostOrder());
+        System.out.println(tre.fjernAlle(7));
+        System.out.println(tre.toStringPostOrder());
+        tre.fjernAlle(8);
+        System.out.println(tre.antall()); // 5
+        System.out.println(tre.toStringPostOrder());
 
     }
 
